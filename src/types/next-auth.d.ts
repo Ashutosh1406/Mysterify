@@ -1,6 +1,6 @@
 //used in src/api/auth/..nextauth/"options.ts" line no 58
 import 'next-auth'
-import { DefaultSession } from 'next-auth'
+// import { DefaultSession } from 'next-auth'
 
 declare module 'next-auth' {  //module of next auth some interface change
     interface User{

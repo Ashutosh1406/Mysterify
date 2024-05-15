@@ -64,7 +64,10 @@ const UserSchema:Schema<User> = new Schema({
         default:true,
     },
     messages:[MessageSchema]
-})
+},{
+    collection:'users',
+    versionKey:false,
+});
 
 /* export statements in TypeScript */
 
