@@ -7,7 +7,7 @@ import {User} from "next-auth";
 
 // POST request for changing status of user either accepting or not
 export async function POST(request:Request) {
-    await dbConnect()
+    await dbConnect() //connect DB
 
     const session = await getServerSession(authOptions); //for currently logged in user
     const user:User = session?.user as User
@@ -81,11 +81,11 @@ export async function GET(request:Request){
         )
     }
 
-    const userId = user._id
+    //const userId = user._id
 
     try {
 
-        const foundUser = await UserModel.findById(userId)
+        const foundUser = await UserModel.findById(user._id)
     
         if(!foundUser){
             return Response.json(  

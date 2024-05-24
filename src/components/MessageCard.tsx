@@ -19,14 +19,13 @@ type MessageCardProps = {  //type defination
     onMessageDelete : (messageId : string) => void;
 };
 
-export function MessageCard({message,onMessageDelete}:MessageCardProps){ //type checking according to MessageCardProps / properties
+const MessageCard = ({message,onMessageDelete}:MessageCardProps) => { //type checking according to MessageCardProps / properties
     const {toast} = useToast();
 
     const handleDeleteConfirm = async() => {
         try {
             const response = await axios.delete<ApiResponse>(
-                `/api/delete-message/${message._id}` // fetch by message id
-            )
+                `/api/delete-message/${message._id}`) // fetch by message id 
 
             //toast display effect after the success of delete request
             toast({
@@ -82,4 +81,6 @@ export function MessageCard({message,onMessageDelete}:MessageCardProps){ //type 
         </Card>
         );
     }
+
+export default MessageCard
 

@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-const VerifyAccount = () => {
+export default function VerifyAccount() {
 
     const router = useRouter()
     const params = useParams<{username:string}>()
@@ -37,7 +37,7 @@ const VerifyAccount = () => {
                 description:response.data.message
             })
 
-            router.replace('sign-in')
+            router.push('/sign-in')
 
         } catch (error) {
             
@@ -88,4 +88,4 @@ const VerifyAccount = () => {
     )
 }
 
-export default VerifyAccount
+// export default VerifyAccount

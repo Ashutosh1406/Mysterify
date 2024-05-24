@@ -29,7 +29,7 @@ export const authOptions:NextAuthOptions = {
                     if(!user.isVerified){
                         throw new Error('Please verify your Account')
                     }
-                    //password check stores boolean(as bcrypt .compare return boolean)
+                    //password check stores boolean(as bcrypt.compare() return boolean)
                     const isPasswordCorrect = await brcrypt.compare(credentials.password,user.password)
 
                     if(isPasswordCorrect){

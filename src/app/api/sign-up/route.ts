@@ -7,21 +7,22 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 export async function POST(request:Request){
     await dbConnect()
 
-    try{ //algorithm strats for basic signup
+    try{ //algorithm strats for basic signup    
         const {username,email,password} = await request.json()
 
-        const existingUserVerifiedByUsername = await UserModel.findOne({username,isVerified:true})
+        const existingUserVerifiedByUsername = await UserModel.findOne({username,isVerified:true,})
 
-        if(existingUserVerifiedByUsername) { //if exits
+        if(existingUserVerifiedByUsername) { //if exists
             return Response.json({
                 success:false,
                 message:"Username is already taken"
-            },{status:400})
+            },{status:400}
+            );
         }
 
         const existingUserByEmail = await UserModel.findOne({email})
 
-        const verifyCode = Math.floor(100000 + Math.random()*90000).toString()
+        let verifyCode = Math.floor(100000 + Math.random()*90000).toString()
 
         if(existingUserByEmail){ 
             
@@ -29,9 +30,10 @@ export async function POST(request:Request){
                 return Response.json({
                     success:false,
                     message:"User Already Exist with this email"
-                },{status:400})
+                },{status:400}
+                )
             }else{  //exist but not verified
-                const encryptPassword = await bcrypt.hash(password,10)
+                const encryptPassword = await bcrypt.hash(password,12)
                 existingUserByEmail.password = encryptPassword;
                 existingUserByEmail.verifyCode = verifyCode;
                 existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000)
@@ -52,7 +54,7 @@ export async function POST(request:Request){
                 verifyCodeExpiry:expiryDate,
                 isVerified:false,
                 isAcceptingMessage:true,
-                messages:[]
+                messages:[],
             })
 
             await newUser.save()
@@ -69,15 +71,17 @@ export async function POST(request:Request){
             return Response.json({
                 success:false,
                 message:emailOTP.message
-            },{status:500})
+            },{status:500}
+            )
         }
 
-        return Response.json({
-            success:true,
-            message:"User Registered Successfully , Please verify your email"
-        },{status:200})
-
-
+        return Response.json(
+            {
+                success:true,
+                message:"User Registered Successfully , Please verify your email"
+            },
+            {status:201}
+        )
     }catch(error){
         console.error('Error Registering User',error)
         return Response.json({

@@ -1,25 +1,23 @@
 'use client'
-
+// import { useDebounceValue } from 'usehooks-ts'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z  from "zod"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { useDebounceValue } from 'usehooks-ts'
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-import { signUpSchema } from "@/schemas/signUpSchema"
+// import { signUpSchema } from "@/schemas/signUpSchema"
 import axios,{AxiosError} from 'axios'
 import { ApiResponse } from "@/types/ApiResponse"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Loader2, LoaderCircleIcon } from "lucide-react"
 import { signInSchema } from "@/schemas/signInSchema"
 import { signIn } from "next-auth/react"
+import { useState } from 'react'; //for button
 
 
-const Page = () => {
+export default function SignInForm(){
 
   // states 
   /* using deboucing for checking username avalibility */
@@ -27,22 +25,23 @@ const Page = () => {
   //using debouce hook
 
   //const deboucedUsername = useDebounceValue(username,300)
-  const { toast } = useToast()
+  //const { toast } = useToast()
   const router = useRouter();
 
   //notes 
   //zod implementation
 
   //This "form" method is used for destructuring in render() of <Form></Form>
-  const form = useForm<z.infer<typeof signInSchema>>({ //using zod {z} object for inference of "signupschema" for checking 
-    //adding resolvers inside "{}"
+
+  const form = useForm<z.infer<typeof signInSchema>>({       //using zod {z} object for inference of "signupschema" for checking 
+                                                             //adding resolvers inside "{}"
       resolver:zodResolver(signInSchema),
       defaultValues:{  //default set using ts and zod for validation
         identifier:'',
         password:'',
       }
-  })
-
+  });
+      const {toast} = useToast()
   const onSubmit = async(data:z.infer<typeof signInSchema>) => {
         const result = await signIn('credentials',{
           redirect:false,
@@ -64,8 +63,9 @@ const Page = () => {
         }
       }
     
-
-
+  
+  //const MyComponent = () => {}
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -114,22 +114,30 @@ const Page = () => {
           </Button>
           </form>
         </Form>
-
         <div className="text-center mt-4">
-          <p>
-            Already a member yet?{''}
-            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
-              Sign-up
-            </Link>
-          </p>
-        </div>
+      <p>
+        <span className={`transition duration-200 ${isHovered ? 'fade-out' : ''}`}>
+          Join Now!!
+        </span>
+        <Link href="/sign-up">
+          <button
+            className={`ml-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition duration-200 transform ${isHovered ? '-translate-x-10' : ''}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            Sign-up
+          </button>
+        </Link>
+      </p>
+    </div>
       </div>
     </div>
-   )
+  )
+  
   }
 
 
-export default Page
+//export default Page
 
 // import React from 'react'
 
