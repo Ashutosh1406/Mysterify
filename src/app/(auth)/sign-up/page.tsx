@@ -564,7 +564,7 @@ export default function SignUpForm() {
       });
 
       router.replace(`/verify/${data.username}`);
-      console.log("Navigating to", `/verify/${data.username}`);
+      //console.log("Navigating to", `/verify/${data.username}`);
     } catch (error) {
       console.error('Error during sign-up:', error);
 
@@ -642,7 +642,14 @@ export default function SignUpForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field} name="password" />
+                  <Input type="password" {...field} name="password" 
+                  onPaste={(e) => e.preventDefault()}
+                  onKeyDown={(e) => {
+                    if((e.ctrlKey && e.key==='v') || (e.ctrlKey && e.key==='V')){
+                        e.preventDefault();
+                    }
+                  }}
+                  />
                   <FormMessage />
                 </FormItem>
               )}

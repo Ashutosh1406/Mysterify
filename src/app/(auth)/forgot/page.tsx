@@ -42,11 +42,13 @@ import { NextResponse } from "next/server";
       try {
         const response = await axios.post('/api/forgot-password', data); //for db updation of code to reset the password
         //console.log(response);
-        router.replace(`/verify/${response.data.username}`);
         toast({
           title: 'Success',
           description: response.data.message,
         });
+        router.push(`/forgot-password/${response.data.username}`);
+        // if(response.data.message=='Account Verified Successfully') return router.push(`/forgot-password/${response.data.username}`)
+        // router.push(`forgot/reset/${response.data.username}`);
       } catch (error) {
         const axiosError = error instanceof AxiosError ? error : new AxiosError();
         let errorMessage =

@@ -21,3 +21,10 @@ export const forgotSchema = z.object({
     // password:z.string().min(6,{message:'Password must be atleast 6 characters for better safety'}),
     credential: z.string()
 })
+
+export const resetSchema = z.object({
+    username:usernameValidation,
+    password1:z.string().min(6,{message:'Password must be atleast 6 characters for better safety'}),
+    password2:z.string().min(6,{message:'Password must be atleast 6 characters for better safety'}),
+    
+})

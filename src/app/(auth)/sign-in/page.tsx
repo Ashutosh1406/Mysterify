@@ -102,6 +102,12 @@ export default function SignInForm(){
               <FormControl>
                 <Input type="password" placeholder="password" 
                 {...field} 
+                onPaste={(e) => e.preventDefault()}
+                  onKeyDown={(e) => {
+                    if((e.ctrlKey && e.key==='v') || (e.ctrlKey && e.key==='V')){
+                        e.preventDefault();
+                    }
+                  }}
                 />
               </FormControl>
               <FormMessage />

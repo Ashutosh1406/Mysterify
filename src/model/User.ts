@@ -27,7 +27,9 @@ export interface User extends Document{  //for User
     verifyCodeExpiry: Date;
     isVerified: boolean;
     isAcceptingMessage: boolean;
-    messages: Message[]
+    messages: Message[];
+    resetToken:string;
+    resetPasswordExpiry:Date;
 }
 
 const UserSchema:Schema<User> = new Schema({
@@ -63,7 +65,7 @@ const UserSchema:Schema<User> = new Schema({
         type:Boolean,
         default:true,
     },
-    messages:[MessageSchema]
+    messages:[MessageSchema],
 },{
     collection:'users',
     versionKey:false,
@@ -72,5 +74,13 @@ const UserSchema:Schema<User> = new Schema({
 /* export statements in TypeScript */
 
 //(1) || (2) where first "(1)" means that model already exist and its return type is just Like User Schema
-const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User",UserSchema)
+// const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User",UserSchema)
+
+let UserModel: mongoose.Model<User>;
+try {
+    UserModel = mongoose.model<User>('User');
+} catch (error) {
+    UserModel = mongoose.model<User>('User', UserSchema);
+}
+
 export default UserModel;

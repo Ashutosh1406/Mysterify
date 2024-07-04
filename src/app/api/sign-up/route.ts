@@ -25,7 +25,8 @@ export async function POST(request:Request){
         let verifyCode = Math.floor(100000 + Math.random()*90000).toString()
 
         if(existingUserByEmail){ 
-            
+            // if we find user based on email we will return and respond
+            // with email already Taken
             if(existingUserByEmail.isVerified){
                 return Response.json({
                     success:false,
@@ -34,6 +35,7 @@ export async function POST(request:Request){
                 )
             }else{  //exist but not verified
                 const encryptPassword = await bcrypt.hash(password,12)
+                existingUserByEmail.username = username
                 existingUserByEmail.password = encryptPassword;
                 existingUserByEmail.verifyCode = verifyCode;
                 existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000)

@@ -100,10 +100,11 @@
 // }
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-export { default } from 'next-auth/middleware';
+
+// export { default } from 'next-auth/middleware';
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/sign-in', '/sign-up', '/', '/verify/:path*'],
+  matcher: ['/dashboard/:path*', '/sign-in', '/sign-up', '/', '/verify/:path*','/forgot/reset/:path*'],
 };
 
 export async function middleware(request: NextRequest) {
@@ -126,5 +127,34 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
+  // if(!token && url.pathname.startsWith('/forgot/reset')){
+  //   return NextResponse.redirect(new URL('/sign-in', request.url));
+  // }
+
+  // if (!token && url.pathname.startsWith('/forgot/reset')) {
+  //   return NextResponse.redirect(new URL('/sign-in', request.url));
+  // }
+
   return NextResponse.next();
 }
+
+// async function isValidResetToken(token:any,username:any) {
+//   // Implement your logic to verify the reset token here
+//   // This could involve checking the token against a database or some other storage
+//   if (!token) return false;
+//   if(!username) return false;
+
+//   await dbConnect()
+
+//   const user = await UserModel.findOne({username})
+//   if(!user || user.resetToken !== token){
+//     return false;
+//   }
+//   const now = new Date();
+
+//   if (!user.resetPasswordExpiry || now > user.resetPasswordExpiry) {
+//     return false;
+//   }
+
+//   return true;
+// }
