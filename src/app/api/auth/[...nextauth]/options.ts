@@ -4,7 +4,7 @@ import brcrypt from "bcryptjs"
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
-export const authOptions:NextAuthOptions = {
+export const    authOptions:NextAuthOptions = {
 
     providers:[
         CredentialsProvider({   //NextAuth documentation
@@ -59,7 +59,7 @@ export const authOptions:NextAuthOptions = {
             }
             return session
         },
-        async jwt({ token, user,}) { //next-auth.d.ts for modification of user
+        async jwt({ token, user}) { //next-auth.d.ts for modification of user
             if(user){
                 token._id = user._id?.toString()
                 token.isVerified = user.isVerified

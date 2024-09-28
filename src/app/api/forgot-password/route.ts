@@ -1,6 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import {sendVerificationEmailwithService} from "@/helpers/verificationMailGo"
+
 import { NextResponse } from "next/server";
 export async function POST(request:Request){
     await dbConnect()
@@ -27,7 +29,7 @@ export async function POST(request:Request){
 
             await existingUser.save();
 
-            const emailOTP = await sendVerificationEmail(
+            const emailOTP = await sendVerificationEmailwithService(
                 existingUser.email,
                 existingUser.username,
                 existingUser.verifyCode

@@ -81,11 +81,11 @@ export async function GET(request:Request){
         )
     }
 
-    //const userId = user._id
+    const userId = user._id
 
     try {
 
-        const foundUser = await UserModel.findById(user._id)
+        const foundUser = await UserModel.findById(userId)
     
         if(!foundUser){
             return Response.json(  
@@ -100,17 +100,17 @@ export async function GET(request:Request){
         return Response.json(  
             {
                 success:true,
-                messsage:'Not Authenticated',
+                messsage:'Done',
                 isAcceptingMessages: foundUser.isAcceptingMessage
             },
             {status:200}
         )
     } catch (error) {
-        console.log("Failed to Update user status to accept Messages")
+        //console.log("Failed to Update user status to accept Messages")
         return Response.json(  
             {
                 success:false,
-                messsage:'Error in getting message acceptance status from '
+                messsage:'Error in getting message acceptance status from server'
             },
             {status:500}
         )
