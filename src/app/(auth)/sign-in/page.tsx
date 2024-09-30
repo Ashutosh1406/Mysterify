@@ -41,7 +41,7 @@ export default function SignInForm(){
         password:'',
       }
   });
-      const {toast} = useToast()
+  const {toast} = useToast()
   const onSubmit = async(data:z.infer<typeof signInSchema>) => {
         const result = await signIn('credentials',{
           redirect:false,
@@ -66,6 +66,17 @@ export default function SignInForm(){
   
   //const MyComponent = () => {}
   const [isHovered, setIsHovered] = useState(false);
+
+  const [isForgotClicked, setIsForgotClicked] = useState(false);
+  const handleForgotClick = () => {
+    setIsForgotClicked(true)
+    setTimeout( () => {
+      router.push('/forgot')
+    }, 300)
+  };
+
+
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -120,8 +131,10 @@ export default function SignInForm(){
           </Button>
           </form>
         </Form>
+        
         <div className="text-center mt-4">
-      <p>
+
+        <p>
         <span className={`transition duration-200 ${isHovered ? 'fade-out' : ''}`}>
           Join Now!!
         </span>
@@ -134,23 +147,17 @@ export default function SignInForm(){
             Sign-up
           </button>
         </Link>
+        <button
+          className={`ml-4 px-4 py-2 ${isForgotClicked ? 'bg-orange-500' : 'bg-black'} text-white font-semibold rounded-lg shadow-md hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition duration-200`}
+          onClick={handleForgotClick}
+        >
+          Forgot
+        </button>
       </p>
+
     </div>
       </div>
     </div>
   )
   
-  }
-
-
-//export default Page
-
-// import React from 'react'
-
-// function page() {
-//   return (
-//     <div>sign-in-page</div>
-//   )
-// }
-
-// export default page
+}
