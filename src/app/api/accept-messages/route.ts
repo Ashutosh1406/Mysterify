@@ -101,7 +101,7 @@ export async function GET(request:Request){
             {
                 success:true,
                 messsage:'Done',
-                isAcceptingMessages: foundUser.isAcceptingMessage
+                isAcceptingMessage: foundUser.isAcceptingMessage
             },
             {status:200}
         )
